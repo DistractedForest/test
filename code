@@ -1,0 +1,37 @@
+grade.calc<-function(){
+  usergrades.char <- readline(prompt="Enter your grades here, separated by a comma:")
+  usergrades.sep<-(strsplit(usergrades.char[1],split=","))
+  usergrades.sep.num<-as.numeric(usergrades.sep[[1]])
+  usergrades.cred.char <- readline(prompt="Enter each class's credit value, separated by a comma:")
+  usergrades.sep.cred<- (strsplit(usergrades.cred.char[1],split=","))
+  usergrades.cred<-as.numeric(usergrades.sep.cred[[1]])
+  
+  
+  if(length(usergrades.cred)!=length(usergrades.sep.num)){
+    print("Number of classes does not match up with credits")
+  } else {
+      if(any(usergrades.sep.num>4|usergrades.sep.num<0)){
+      print("Invalid class grade(s), please provide grades on a 0.0 to 4.0 scale")}
+      else {
+      
+      usergrades.gpred.char<-readline(prompt="Enter your predicted grades here, separated by a comma:")
+  usergrades.gpred.sep<-(strsplit(usergrades.gpred.char[1],split=","))
+  usergrades.gpred<-as.numeric(usergrades.gpred.sep[[1]])
+  usergrades.cpred.char<-readline(prompt="Enter the predicted class' credit values here, separated by a comma:")
+  usergrades.cpred.sep<-(strsplit(usergrades.cpred.char[1],split=","))
+  usergrades.cpred<-as.numeric(usergrades.cpred.sep[[1]])
+  
+    weighted<-usergrades.cred/sum(usergrades.cred)
+    truegpa<-sum(usergrades.sep.num*weighted)
+    pweighted<-c(usergrades.cred,usergrades.cpred)/sum(c(usergrades.cred,usergrades.cpred))
+    pgpa<-sum(c(usergrades.sep.num,usergrades.gpred)*pweighted)
+    grade.tab<-cbind(usergrades.cred,usergrades.sep.num)
+    colnames(grade.tab)<-c("Credits","Grade")
+    cat("Summary:\n")
+    grade.sum<-list(grade.tab,truegpa,pgpa)
+    names(grade.sum)<-c("Grade Table","Current Cum GPA","Predicted Cum GPA")
+    return(grade.sum)
+    
+
+
+}}}
